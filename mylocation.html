@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>마커 생성하기</title>
+    <link rel="stylesheet" href="map.css">
+    <link rel="stylesheet" href="menubar.css">
+</head>
+
+<body>
+
+    <body>
+        <!-- 메뉴 바 -->
+        <div id="menubar">
+            <a href="#"><img class="logo" src="../MyProject/image/logo.jpg" onclick="window.open('ex_mymain.html')"
+                    style="margin-top: 21px;"></a>
+            <ul style="margin-top: 37px;">
+                <li><a href="ex_mymain.html">home</a></li>
+                <li><a href="../MyProject/mylocation2..html">위치공유</a></li>
+                <li><a href="../MyProject/mylocation.html">위치등록</a></li>
+                <li><a href="#">유기동물</a></li>
+                <li><a href="#">보호소</a></li>
+                <img src="../MyProject/image/user1.png" style="width: 40px;">
+                <li><a href="../MyProject/ex_mylogin.html">logout</a></li>
+                <span> CALL 123-456-789</span>
+            </ul>
+        </div>
+        <div>
+            <hr style="margin-top: 25px;">
+            <p class="title">위치등록</p>
+            <hr>
+            <div style="font-size: 25px; color: #3A54B4; margin-left: 100px; margin-top: 10px; 
+                        font-family: yg-jalnan;"> 동물의 위치를 표시해주세요!</div>
+            <div style="display: inline-block; float: right;">
+                <input type="file" id="inputImage" style="float: right; margin-right: 510px;"><br>
+                <img src="" class="uploadImage">
+                <select name="size" id="sizes" style="float: right; margin-right: 700px; margin-bottom: 20px;">
+                    <option value="대형견">대형견</option>
+                    <option value="중형견">중형견</option>
+                    <option value="소형견">소형견</option><br>
+                </select>
+                <form style="display: block; margin-right: 100px;"><br>
+                    <div style="margin-left: 50px; font-family: NanumSquare;">
+                        특이사항 <textarea style="display: flex; margin-bottom: 20px;" name="content" value="text" id="textarea" cols="20" rows="3"
+                         placeholder="품종이나 특이사항을 적어주세요"></textarea>
+                         <span style="margin-right: 50px; margin-top: 20px; font-family: NanumSquare;">
+                             발견 날짜 : <input type="date" id="date"><br>
+                             발견 시간 : <input type="time" id="time"><br>        
+                         </span>
+                    </div>
+                </form>
+                <div style="margin-right: 650px; margin-top:30px">
+                    <button type="button" onclick="fn_save()" style="float: right;" class="saveBtn">등록하기</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script>
+            let v_size = "";
+            let v_text = "";
+            let v_date = "";
+            let v_time = "";
+            let v_image = "";
+            // 발견한 정보 입력 후 등록하기 버튼 클릭 시
+            // 변수에 value값 저장
+            function fn_save() {
+                let v_select = document.getElementById('sizes');
+                v_size = ("크기: " + v_select.options[v_select.selectedIndex].value)
+                let textarea = document.getElementById('textarea');
+                v_text = ("특이사항: " + textarea.value);
+                let date = document.querySelector('#date');
+                v_date = ("발견 날짜: " + date.value)
+                let time = document.querySelector('#time');
+                v_time = ("발견 시각: " + time.value)
+            }
+            document.querySelector(".saveBtn").addEventListener('click', () => {
+                let selectFile = document.querySelector("#inputImage").files[0];
+                const file = URL.createObjectURL(selectFile);
+                // document.querySelector(".uploadImage").src = file;
+                console.log(file);
+            })
+        </script>
+        <div id="map" style="width: 900px; height:600px; left: 100px;">
+        </div>
+        <div id="msg" style="margin-left: 250px; font-size: 20px; margin-top: 5px; font-family: yg-jalnan;">
+        </div>
+        <div id="clicklating" style="margin-left: 250px; font-size: 20px; font-family: yg-jalnan;">
+        </div>
+        <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=31463a379fd4bcff6f7b5decd88f33e5"></script>
+        <script>
+            // if (!navigator.geolocation) {
+            // } else {
+            //     // 콜백함수 등록
+            //     navigator.geolocation.getCurrentPosition(my_location);
+            // }
+            // function my_location(position) {
+                // let now = new Date(position.timestamp);
+                // let lat = position.coords.latitude; //위도
+                // let lon = position.coords.longitude; // 경도
+                let lat = 36.32668741821851;
+                let lon = 127.40781282964622;
+                msg = "현재 위치 (위도" + lat + ", 경도 " + lon + ") <br>";
+                document.getElementById('msg').innerHTML = msg;
+
+                let mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                    mapOption = {
+                        center: new kakao.maps.LatLng(lat, lon), // 지도의 중심좌표
+                        level: 3 // 지도의 확대 레벨
+                    };
+                let map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+                let imageSrc = 'https://cdn-icons-png.flaticon.com/512/684/684908.png', // 마커이미지의 주소입니다    
+                    imageSize = new kakao.maps.Size(44, 49), // 마커이미지의 크기입니다
+                    imageOption = { offset: new kakao.maps.Point(27, 49) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 
+                // 이미지 안에서의 좌표를 설정합니다.
+
+                // 마커가 표시될 위치입니다 
+                let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    markerPosition = new kakao.maps.LatLng(lat, lon);
+
+                // 마커를 생성합니다
+                let marker = new kakao.maps.Marker({
+                    position: markerPosition,
+                    image: markerImage,
+                    clickable: true
+                });
+
+                // 마커가 지도 위에 표시되도록 설정합니다
+                marker.setMap(map);
+
+
+                // 마커에 클릭이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'click', function () {
+
+                    // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+                    var iwContent = ('<div class = "overlaybox" style="width:250px; height:250px; padding:6px;">'
+                        + ' <div class = "boxtitle"> 동물 정보 </div>'
+                        + v_size + '<br>' + v_text + '<br>' + v_date + '<br>' + v_time + v_image
+                        + '<br>' + "<img id = 'myImage' src = 'https://blog.kakaocdn.net/dn/czHiGp/btqDJfS6avh/U65P3U5Jt370Dme1h8pz01/img.jpg'>" + '</div>'), // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                        iwRemoveable = true; // removeable 속성을 true 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+                    // 인포윈도우를 생성합니다
+                    var infowindow = new kakao.maps.InfoWindow({
+                        content: iwContent,
+                        removable: iwRemoveable
+                    });
+                    // 마커 위에 인포윈도우를 표시합니다
+                    infowindow.open(map, marker);
+
+
+                });
+
+                kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+                    let lating = mouseEvent.latLng;
+                    // 클릭한 곳으로 마커 이동
+                    marker.setPosition(lating);
+
+                    let message = "클릭한 위치의 위도는" + lating.getLat() + "이고, <br>";
+                    message += "경도는 " + lating.getLng() + "입니다.";
+
+                    let resultDiv = document.getElementById("clicklating");
+                    resultDiv.innerHTML = message;
+                });
+            // }
+                    // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+                    // marker.setMap(null); 
+
+
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>마커 생성하기</title>
+    <link rel="stylesheet" href="map.css">
+    <link rel="stylesheet" href="menubar.css">
+</head>
+
+<body>
+
+    <body>
+        <!-- 메뉴 바 -->
+        <div id="menubar">
+            <a href="#"><img class="logo" src="../MyProject/image/logo.jpg" onclick="window.open('ex_mymain.html')"
+                    style="margin-top: 21px;"></a>
+            <ul style="margin-top: 37px;">
+                <li><a href="ex_mymain.html">home</a></li>
+                <li><a href="../MyProject/mylocation2..html">위치공유</a></li>
+                <li><a href="../MyProject/mylocation.html">위치등록</a></li>
+                <li><a href="#">유기동물</a></li>
+                <li><a href="#">보호소</a></li>
+                <img src="../MyProject/image/user1.png" style="width: 40px;">
+                <li><a href="../MyProject/ex_mylogin.html">logout</a></li>
+                <span> CALL 123-456-789</span>
+            </ul>
+        </div>
+        <div>
+            <hr style="margin-top: 25px;">
+            <p class="title">위치공유</p>
+            <hr>
+        </div>
+        <div style="font-size: 20px; margin-left: 480px; margin-top:10px; margin-bottom: 10px; font-family: yg-jalnan; color: #3A54B4;">주소를 입력하세요 <input type="text" style="width: 800px;height: 50px; font-size: 20px;"></div>
+        <div id="map" style="width: 1500px; height:700px; left: 200px;">
+        </div>
+        <div id="msg" style="margin-left: 250px; font-size: 20px; margin-top: 5px; font-family: yg-jalnan;">
+        </div>
+        <div id="clicklating" style="margin-left: 250px; font-size: 20px; font-family: yg-jalnan;">
+        </div>
+        <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=31463a379fd4bcff6f7b5decd88f33e5"></script>
+        <script>
+            let mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                mapOption = {
+                    center: new kakao.maps.LatLng(36.32668741821851, 127.40781282964622), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
+            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+            // 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다 
+            var positions = [
+                {
+                    content:('<div class = "overlaybox" style="width:250px; height:250px; padding:6px;">'
+                        + ' <div class = "boxtitle"> 동물 정보 </div>'
+                        +'크기: 소형견'  + '<br>' +'특이사항: 푸들, 왼쪽 귀 상처'+ '<br>' + '빌견 날짜: 2022-09-28'+ '<br>' + '발견 시각: 12:15'
+                        + '<br>' + "<img id = 'myImage' style= 'width:200px; height:100px;' src = 'https://www.zooseyo.or.kr/pet_care/photo/1526211443_50357400.jpg'>" + '</div>'),
+                    latlng: new kakao.maps.LatLng(36.326639006670504, 127.40945249504279)
+                },
+                {
+                    content:('<div class = "overlaybox" style="width:250px; height:250px; padding:6px;">'
+                        + ' <div class = "boxtitle"> 동물 정보 </div>'
+                        +'크기: 소형견'  + '<br>' +'특이사항: 알수없음, 왼쪽 눈 다침'+ '<br>' + '빌견 날짜: 2022-09-13'+ '<br>' + '발견 시각: 15:25'
+                        + '<br>' + "<img id = 'myImage' style= 'width:200px; height:100px;' src = 'http://img.segye.com/content/image/2020/05/03/20200503515241.jpg'>" + '</div>'),
+                    latlng: new kakao.maps.LatLng(36.32768926677655, 127.4080213025525)
+                },
+                {
+                    content: ('<div class = "overlaybox" style="width:250px; height:250px; padding:6px;">'
+                        + ' <div class = "boxtitle"> 동물 정보 </div>'
+                        +'크기: 소형견'  + '<br>' +'특이사항: 푸들, 다리 절뚝거림'+ '<br>' + '빌견 날짜: 2022-10-05'+ '<br>' + '발견 시각: 19:11'
+                        + '<br>' + "<img id = 'myImage' style= 'width:200px; height:100px;' src = 'https://cdn.banwol.net/news/photo/202006/44756_15564_5158.jpg'>" + '</div>'),
+                    latlng: new kakao.maps.LatLng(36.32658069592566, 127.41068839177295)
+                },
+                {
+                    content:  ('<div class = "overlaybox" style="width:250px; height:250px; padding:6px;">'
+                        + ' <div class = "boxtitle"> 동물 정보 </div>'
+                        +'크기: 소형견'  + '<br>' +'특이사항: 슈나우저, 보라색목걸이 매고있음'+ '<br>' + '빌견 날짜: 2022-10-18'+ '<br>' + '발견 시각: 16:31'
+                        + '<br>' + "<img id = 'myImage' style= 'width:200px; height:100px;' src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy3Ex1BvSb_IxMS9lvNGIPxLM6O2HWaukce7CZLCJWMLFb0e5dqBze3t_zMmnX9bwMhCE&usqp=CAU'>" + '</div>'),
+                    latlng: new kakao.maps.LatLng(36.3264409793361, 127.40674518402518)
+                }
+            ];
+
+            for (var i = 0; i < positions.length; i++) {
+                // 마커를 생성합니다
+                
+                var marker = new kakao.maps.Marker({
+                    map: map, // 마커를 표시할 지도
+                    position: positions[i].latlng // 마커의 위치
+                });
+
+                // 마커에 표시할 인포윈도우를 생성합니다 
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: positions[i].content // 인포윈도우에 표시할 내용
+                });
+
+                // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+                // 이벤트 리스너로는 클로저를 만들어 등록합니다 
+                // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+                kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+                kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+            }
+
+            // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+            function makeOverListener(map, marker, infowindow) {
+                return function () {
+                    infowindow.open(map, marker);
+                };
+            }
+
+            // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+            function makeOutListener(infowindow) {
+                return function () {
+                    infowindow.close();
+                };
+            }
+
+        </script>
+    </body>
+
+</html>

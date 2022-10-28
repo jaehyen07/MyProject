@@ -1,0 +1,53 @@
+/* 메뉴바 */
+#menubar {
+    background-color: #FEF7ED;
+    height: 80px;
+}
+
+a img {
+    width: 170px;
+    height: 80px;
+    margin-top: 15px;
+    margin-left: 60px;
+}
+
+#menubar ul {
+    display: flex;
+    list-style: none;
+    float: right;
+    margin-right: 25px;
+    margin-bottom: 10px;
+}
+
+#menubar ul li {
+    margin: 5px 30px;
+    text-align: center;
+    font-family: "NanumSquare";
+}
+
+#menubar ul li a {
+    text-decoration: none;
+    color: #3A54B4;
+    font-size: 13px;
+    font-family: "nanumsquare";
+}
+
+#menubar ul img {
+    width: 30px;
+    height: 30px;
+    margin-left: 50px;
+    margin-right: -20px;
+}
+
+#menubar ul span {
+    background-color: #3A54B4;
+    color: white;
+    font-size: 13px;
+    margin: 7px;
+    width: 130px;
+    height: 27px;
+    text-align: center;
+}
+.logo{
+    margin-top: 0;
+}

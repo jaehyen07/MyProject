@@ -1,0 +1,55 @@
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #FEF7ED;
+    display: inline;
+}
+
+#map{
+    
+}
+/*map 페이지 title*/
+.title{
+    margin: 0;
+    font-size: 50px;
+    font-family: "yg-jalnan";
+    text-align: center;
+    margin-bottom: 0;
+}
+/*infowindow css*/
+.overlaybox{
+    position:relative;
+    text-align: center;
+    color: white;
+    background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png') no-repeat;padding:15px 10px;
+}
+.overlaybox .boxtitle {
+    color:#fff;font-size:16px;font-weight:bold;
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png') 
+    no-repeat right 120px;margin-bottom:8px; 
+}
+.overlaybox .first {
+    position:relative;width:247px;height:136px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumb.png') 
+    no-repeat;margin-bottom:8px;
+}
+#myImage{
+    width: 200px;
+    height: 100px;
+}
+/*정보입력창*/
+#map{
+    display: flex;
+}
+#sizes{
+    margin-left: 50px;
+}
