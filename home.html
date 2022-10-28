@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="menubar.css">
+
+</head>
+
+<body>
+    <!-- 메뉴 바 -->
+    <div id="menubar">
+        <a href="#"><img class="logo" src="./image/logo.jpg"></a>
+        <ul>
+            <li><a href="ex_mymain.html">home</a></li>
+            <li><a href="./mylocation2..html">위치공유</a></li>
+            <li><a href="./mylocation.html">위치등록</a></li>
+            <li><a href="#">유기동물</a></li>
+            <li><a href="#">보호소</a></li>
+            <img src="./image/user1.png" style="width: 40px;">
+            <li><a href="#">logout</a></li>
+            <span> CALL 123-456-789</span>
+        </ul>
+    </div>
+    <div id="main1">
+        <h2 id="mainString">Homeless Animals</h2>
+        <img src="./image/circle.jpg" id="dog" alt="">
+        </div>
+        <div>
+        <h2 id="count"></h2>
+        </div>
+        <script>
+            let countBox = document.querySelector('#count'),
+                count = 0;
+
+            let counting = setInterval(function () {
+                if (count == 92500) {
+                    clearInterval(counting);
+                    return false;
+                }
+                count += 500;
+                countBox.innerHTML = new Intl.NumberFormat().format(count);
+            }, 1);
+        </script>
+        <!-- 마우스 올렸을 때 이벤트 -->
+        <div id="container">
+            <div id="circle1">
+                <img src="./image/dg.jpg" onclick="window.open('mylocation.html')">
+            </div>
+        </div>
+</body>
+
+</html>
